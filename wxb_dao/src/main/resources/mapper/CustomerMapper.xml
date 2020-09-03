@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.dao.CustomerDao">
+  <resultMap id="BaseResultMap" type="com.cyj.entity.Customer">
+    <id column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="QQ" jdbcType="VARCHAR" property="qq" />
+    <result column="wxh" jdbcType="VARCHAR" property="wxh" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="login_pwd" jdbcType="VARCHAR" property="loginPwd" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="acc_balance" jdbcType="DOUBLE" property="accBalance" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="website" jdbcType="VARCHAR" property="website" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    customer_id, customer_name, QQ, wxh, phone, createtime, login_name, login_pwd, state, 
+    level, acc_balance, update_time, website
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wxb_customer
+    where customer_id = #{customerId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from wxb_customer
+    where customer_id = #{customerId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cyj.entity.Customer">
+    insert into wxb_customer (customer_id, customer_name, QQ, 
+      wxh, phone, createtime, 
+      login_name, login_pwd, state, 
+      level, acc_balance, update_time, 
+      website)
+    values (#{customerId,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
+      #{wxh,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{loginName,jdbcType=VARCHAR}, #{loginPwd,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{level,jdbcType=INTEGER}, #{accBalance,jdbcType=DOUBLE}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{website,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cyj.entity.Customer">
+    insert into wxb_customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="customerName != null">
+        customer_name,
+      </if>
+      <if test="qq != null">
+        QQ,
+      </if>
+      <if test="wxh != null">
+        wxh,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="loginPwd != null">
+        login_pwd,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="accBalance != null">
+        acc_balance,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="website != null">
+        website,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="wxh != null">
+        #{wxh,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null">
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="accBalance != null">
+        #{accBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cyj.entity.Customer">
+    update wxb_customer
+    <set>
+      <if test="customerName != null">
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        QQ = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="wxh != null">
+        wxh = #{wxh,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null">
+        login_pwd = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="accBalance != null">
+        acc_balance = #{accBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="website != null">
+        website = #{website,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where customer_id = #{customerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cyj.entity.Customer">
+    update wxb_customer
+    set customer_name = #{customerName,jdbcType=VARCHAR},
+      QQ = #{qq,jdbcType=VARCHAR},
+      wxh = #{wxh,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      login_pwd = #{loginPwd,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      acc_balance = #{accBalance,jdbcType=DOUBLE},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      website = #{website,jdbcType=VARCHAR}
+    where customer_id = #{customerId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="queryAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from wxb_customer
+  </select>
+</mapper>

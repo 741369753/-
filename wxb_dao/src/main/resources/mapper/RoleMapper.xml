@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace= "com.cyj.dao.RoleDao">
+    <resultMap id="RoleMap" type="com.cyj.entity.Role">
+        <id property="roleCode" column="role_code"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleDesc" column="role_desc"/>
+        <result property="roleOrder" column="role_order"/>
+        <result property="roleType" column="role_type"/>
+    </resultMap>
+    <sql id="RoleColumns">
+        role_code,
+        role_name,
+        role_desc,
+        role_order,
+        role_type
+    </sql>
+
+    <select id= "queryByRoleId" resultMap="RoleMap">
+        SELECT
+           <include refid="RoleColumns"></include>
+        FROM
+           sys_role
+        <trim prefix="where" prefixOverrides=",">
+            <if test="roleId!=null and roleId!=''">
+                ,role_code=#{roleId}
+            </if>
+        </trim>
+
+        order by role_order
+    </select>
+    <insert id="addRole">
+        insert into sys_role
+        <trim prefix="(" prefixOverrides=",">
+            <if test="roleCode!=null">
+                ,role_code
+            </if>
+            <if test="roleName!=null">
+                ,role_name
+            </if>
+            <if test="roleDesc!=null">
+                ,role_desc
+            </if>
+            <if test="roleOrder!=null">
+                ,role_order
+            </if>
+            <if test="roleType!=null">
+                ,role_type
+            </if>
+        </trim>
+        <trim prefix=") values (" prefixOverrides="," suffix=")">
+            <if test="roleCode!=null">
+                ,#{roleCode}
+            </if>
+            <if test="roleName!=null">
+                ,#{roleName}
+            </if>
+            <if test="roleDesc!=null">
+                ,#{roleDesc}
+            </if>
+            <if test="roleOrder!=null">
+                ,#{roleOrder}
+            </if>
+            <if test="roleType!=null">
+                ,#{roleType}
+            </if>
+        </trim>
+    </insert>
+    <update id="updateRole">
+        update sys_role
+        <trim prefix="set" prefixOverrides=",">
+            <if test="roleCode!=null">
+                ,role_code=#{roleCode}
+            </if>
+            <if test="roleName!=null">
+                ,role_name=#{roleName}
+            </if>
+            <if test="roleDesc!=null">
+                ,role_desc=#{roleDesc}
+            </if>
+            <if test="roleOrder!=null">
+                ,role_order=#{roleOrder}
+            </if>
+            <if test="roleType!=null">
+                ,role_type=#{roleType}
+            </if>
+        </trim>
+        <trim prefix="where" prefixOverrides=",">
+            <if test="roleCode!=null">
+                ,role_code=#{roleCode}
+            </if>
+<!--            <if test="roleName!=null">-->
+<!--                ,role_name=#{roleName}-->
+<!--            </if>-->
+<!--            <if test="roleDesc!=null">-->
+<!--                ,role_desc=#{roleDesc}-->
+<!--            </if>-->
+<!--            <if test="roleOrder!=null">-->
+<!--                ,role_order=#{roleOrder}-->
+<!--            </if>-->
+<!--            <if test="roleType!=null">-->
+<!--                ,role_type=#{roleType}-->
+<!--            </if>-->
+        </trim>
+    </update>
+
+    <delete id="deleteRole">
+        delete from sys_role
+        where role_code = #{roleId}
+    </delete>
+
+    <resultMap id="TreeNodeDataMap" type="com.cyj.entity.TreeNodeData">
+        <id property="id" column="module_code"/>
+        <result property="title" column="module_name"/>
+        <collection property="children" column="module_code" select="queryAllModule"/>
+    </resultMap>
+
+    <select id="queryAllModule" resultMap="TreeNodeDataMap">
+        SELECT
+            module_code,
+            module_name
+        FROM
+            sys_module
+        WHERE
+            parent_module = #{parentId}
+    </select>
+    <select id="queryContainsModuleByRoleId" resultType="java.lang.String">
+        SELECT
+            module_id
+        FROM
+            sys_role_fun
+        WHERE
+            role_id =#{roleId}
+    </select>
+
+    <delete id="deleteRoleFunByRoleId">
+        delete from sys_role_fun
+        where role_id = #{roleId}
+    </delete>
+
+    <insert id="insertRoleRun">
+        insert into sys_role_fun (module_id, role_id)
+        values
+        <foreach collection="codes" item="code" separator=",">
+            (#{code},#{roleId})
+        </foreach>
+    </insert>
+</mapper>

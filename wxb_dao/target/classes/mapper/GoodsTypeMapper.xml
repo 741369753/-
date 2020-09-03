@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.dao.GoodsTypeDao">
+  <resultMap id="BaseResultMap" type="com.cyj.entity.GoodsType">
+    <id column="type_id" jdbcType="VARCHAR" property="typeId" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="type_tag" jdbcType="VARCHAR" property="typeTag" />
+    <result column="order_no" jdbcType="INTEGER" property="orderNo" />
+    <result column="alisa_code" jdbcType="VARCHAR" property="alisaCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    type_id, type_name, parent_id, type_tag, order_no, alisa_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wxb_good_type
+    where type_id = #{typeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from wxb_good_type
+    where type_id = #{typeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cyj.entity.GoodsType">
+    insert into wxb_good_type (type_id, type_name, parent_id, 
+      type_tag, order_no, alisa_code
+      )
+    values (#{typeId,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{typeTag,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, #{alisaCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cyj.entity.GoodsType">
+    insert into wxb_good_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="typeName != null">
+        type_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="typeTag != null">
+        type_tag,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="alisaCode != null">
+        alisa_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeTag != null">
+        #{typeTag,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="alisaCode != null">
+        #{alisaCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cyj.entity.GoodsType">
+    update wxb_good_type
+    <set>
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeTag != null">
+        type_tag = #{typeTag,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="alisaCode != null">
+        alisa_code = #{alisaCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where type_id = #{typeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cyj.entity.GoodsType">
+    update wxb_good_type
+    set type_name = #{typeName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      type_tag = #{typeTag,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=INTEGER},
+      alisa_code = #{alisaCode,jdbcType=VARCHAR}
+    where type_id = #{typeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

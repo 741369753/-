@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.dao.UserInfoDao">
+    <resultMap id="UserInfoMap" type="com.cyj.entity.UserInfo">
+        <id property="userId" column="user_id"/>
+        <result property="name" column="user_name"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="remark" column="remark"/>
+        <result property="enabled" column="enabled"/>
+        <result property="loginTime" column="login_time"/>
+        <association property="role" column="user_id" select="queryRole"/>
+        <association property="userExpInfo" column="user_id" select="com.cyj.dao.UserExpInfoDao.queryById"/>
+    </resultMap>
+
+    <sql id="UserInfoColumns">
+        user_id, user_name, account, password, remark, enabled, login_time
+    </sql>
+    <select id="queryByUsernameAndPassword" resultMap="UserInfoMap">
+        select
+        <include refid="UserInfoColumns"/>
+        from user_info
+        where account=#{username} and password=#{password}
+    </select>
+    <select id="queryAll" resultMap="UserInfoMap">
+        select
+        <include refid="UserInfoColumns"/>
+        from user_info
+    </select>
+    <update id="updateUserInfo">
+        update user_info
+        <trim prefix="set" prefixOverrides=",">
+            user_id=#{userId}
+            <if test="name!=null">
+                ,user_name=#{name}
+            </if>
+            <if test="account!=null">
+                ,account=#{account}
+            </if>
+            <if test="password!=null">
+                ,password=#{password}
+            </if>
+            <if test="remark!=null">
+                ,remark=#{remark}
+            </if>
+            <if test="enabled!=null">
+                ,enabled=#{enabled}
+            </if>
+            <if test="loginTime!=null">
+                ,login_time=#{loginTime}
+            </if>
+        </trim>
+        where user_id=#{userId};
+    </update>
+    <resultMap id="RoleMap" type="com.cyj.entity.Role">
+        <id property="roleCode" column="role_code"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleDesc" column="role_desc"/>
+        <result property="roleOrder" column="role_order"/>
+        <result property="roleType" column="role_type"/>
+    </resultMap>
+    <sql id="RoleColumns">
+        role_code,
+        role_name,
+        role_desc,
+        role_order,
+        role_type
+    </sql>
+    <select id="queryRole" resultMap="RoleMap">
+        select
+        <include refid="RoleColumns"/>
+        from sys_role r
+            inner join sys_user_role ur on r.role_code=ur.role_id
+        where ur.user_id = #{user_id};
+    </select>
+    <update id="updateUserRole">
+        update sys_user_role
+        set role_id = #{roleId}
+        where user_id=#{userId}
+    </update>
+    <insert id="insertUser">
+        insert into user_info
+        <trim prefix="(" prefixOverrides=",">
+            <if test="userId!=null">
+                ,user_id
+            </if>
+            <if test="name!=null">
+                ,user_name
+            </if>
+            <if test="account!=null">
+                ,account
+            </if>
+            <if test="password!=null">
+                ,password
+            </if>
+            <if test="remark!=null">
+                ,remark
+            </if>
+            <if test="enabled!=null">
+                ,enabled
+            </if>
+            <if test="loginTime!=null">
+                ,login_time
+            </if>
+        </trim>
+        <trim prefix=") values (" prefixOverrides="," suffix=")">
+            <if test="userId!=null">
+                ,#{userId}
+            </if>
+            <if test="name!=null">
+                ,#{name}
+            </if>
+            <if test="account!=null">
+                ,#{account}
+            </if>
+            <if test="password!=null">
+                ,#{password}
+            </if>
+            <if test="remark!=null">
+                ,#{remark}
+            </if>
+            <if test="enabled!=null">
+                ,#{enabled}
+            </if>
+            <if test="loginTime!=null">
+                ,#{loginTime}
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertUserRole">
+        insert into sys_user_role
+        <trim prefix="(" prefixOverrides=",">
+            <if test="id!=null">
+                ,id
+            </if>
+            <if test="roleId!=null">
+                ,role_id
+            </if>
+            <if test="userId!=null">
+                ,user_id
+            </if>
+        </trim>
+        <trim prefix=") values (" prefixOverrides="," suffix=")">
+            <if test="id!=null">
+                ,#{id}
+            </if>
+            <if test="roleId!=null">
+                ,#{roleId}
+            </if>
+            <if test="userId!=null">
+                ,#{userId}
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteUserInfo">
+        delete from user_info
+        where user_id=#{userId}
+    </delete>
+    <delete id="deleteUserRole">
+        delete from sys_user_role
+        where user_id=#{userId}
+    </delete>
+</mapper>

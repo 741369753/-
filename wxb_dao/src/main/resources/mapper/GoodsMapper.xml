@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.dao.GoodsDao">
+  <resultMap id="BaseResultMap" type="com.cyj.entity.Goods">
+    <id column="good_id" jdbcType="VARCHAR" property="goodId" />
+    <result column="good_name" jdbcType="VARCHAR" property="goodName" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="good_pic1" jdbcType="VARCHAR" property="goodPic1" />
+    <result column="good_pic2" jdbcType="VARCHAR" property="goodPic2" />
+    <result column="good_pic3" jdbcType="VARCHAR" property="goodPic3" />
+    <result column="promote_desc" jdbcType="VARCHAR" property="promoteDesc" />
+    <result column="copy_ids" jdbcType="VARCHAR" property="copyIds" />
+    <result column="copy_desc" jdbcType="VARCHAR" property="copyDesc" />
+    <result column="forward_link" jdbcType="VARCHAR" property="forwardLink" />
+    <result column="order_no" jdbcType="INTEGER" property="orderNo" />
+    <result column="type_id" jdbcType="VARCHAR" property="typeId" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="toped" jdbcType="INTEGER" property="toped" />
+    <result column="recomed" jdbcType="INTEGER" property="recomed" />
+    <result column="toped_time" jdbcType="TIMESTAMP" property="topedTime" />
+    <result column="recomed_time" jdbcType="TIMESTAMP" property="recomedTime" />
+    <result column="spc_id" jdbcType="VARCHAR" property="spcId" />
+    <result column="zon_id" jdbcType="VARCHAR" property="zonId" />
+    <result column="sell_num" jdbcType="INTEGER" property="sellNum" />
+    <result column="website" jdbcType="VARCHAR" property="website" />
+    <result column="kfqq" jdbcType="VARCHAR" property="kfqq" />
+    <association property="customer" column="customer_id" select="com.cyj.dao.CustomerDao.selectByPrimaryKey"/>
+    <association property="goodsType" column="type_id" select="com.cyj.dao.GoodsTypeDao.selectByPrimaryKey"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    good_id, good_name, customer_id, good_pic1, good_pic2, good_pic3, promote_desc, copy_ids, 
+    copy_desc, forward_link, order_no, type_id, tags, state, create_time, toped, recomed, 
+    toped_time, recomed_time, spc_id, zon_id, sell_num, website, kfqq
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wxb_good
+    where good_id = #{goodId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from wxb_good
+    where good_id = #{goodId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cyj.entity.Goods">
+    insert into wxb_good (good_id, good_name, customer_id, 
+      good_pic1, good_pic2, good_pic3, 
+      promote_desc, copy_ids, copy_desc, 
+      forward_link, order_no, type_id, 
+      tags, state, create_time, 
+      toped, recomed, toped_time, 
+      recomed_time, spc_id, zon_id, 
+      sell_num, website, kfqq
+      )
+    values (#{goodId,jdbcType=VARCHAR}, #{goodName,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
+      #{goodPic1,jdbcType=VARCHAR}, #{goodPic2,jdbcType=VARCHAR}, #{goodPic3,jdbcType=VARCHAR}, 
+      #{promoteDesc,jdbcType=VARCHAR}, #{copyIds,jdbcType=VARCHAR}, #{copyDesc,jdbcType=VARCHAR}, 
+      #{forwardLink,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, #{typeId,jdbcType=VARCHAR}, 
+      #{tags,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{toped,jdbcType=INTEGER}, #{recomed,jdbcType=INTEGER}, #{topedTime,jdbcType=TIMESTAMP}, 
+      #{recomedTime,jdbcType=TIMESTAMP}, #{spcId,jdbcType=VARCHAR}, #{zonId,jdbcType=VARCHAR}, 
+      #{sellNum,jdbcType=INTEGER}, #{website,jdbcType=VARCHAR}, #{kfqq,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cyj.entity.Goods">
+    insert into wxb_good
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodId != null">
+        good_id,
+      </if>
+      <if test="goodName != null">
+        good_name,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="goodPic1 != null">
+        good_pic1,
+      </if>
+      <if test="goodPic2 != null">
+        good_pic2,
+      </if>
+      <if test="goodPic3 != null">
+        good_pic3,
+      </if>
+      <if test="promoteDesc != null">
+        promote_desc,
+      </if>
+      <if test="copyIds != null">
+        copy_ids,
+      </if>
+      <if test="copyDesc != null">
+        copy_desc,
+      </if>
+      <if test="forwardLink != null">
+        forward_link,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="tags != null">
+        tags,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="toped != null">
+        toped,
+      </if>
+      <if test="recomed != null">
+        recomed,
+      </if>
+      <if test="topedTime != null">
+        toped_time,
+      </if>
+      <if test="recomedTime != null">
+        recomed_time,
+      </if>
+      <if test="spcId != null">
+        spc_id,
+      </if>
+      <if test="zonId != null">
+        zon_id,
+      </if>
+      <if test="sellNum != null">
+        sell_num,
+      </if>
+      <if test="website != null">
+        website,
+      </if>
+      <if test="kfqq != null">
+        kfqq,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodId != null">
+        #{goodId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null">
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodPic1 != null">
+        #{goodPic1,jdbcType=VARCHAR},
+      </if>
+      <if test="goodPic2 != null">
+        #{goodPic2,jdbcType=VARCHAR},
+      </if>
+      <if test="goodPic3 != null">
+        #{goodPic3,jdbcType=VARCHAR},
+      </if>
+      <if test="promoteDesc != null">
+        #{promoteDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="copyIds != null">
+        #{copyIds,jdbcType=VARCHAR},
+      </if>
+      <if test="copyDesc != null">
+        #{copyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="forwardLink != null">
+        #{forwardLink,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toped != null">
+        #{toped,jdbcType=INTEGER},
+      </if>
+      <if test="recomed != null">
+        #{recomed,jdbcType=INTEGER},
+      </if>
+      <if test="topedTime != null">
+        #{topedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recomedTime != null">
+        #{recomedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spcId != null">
+        #{spcId,jdbcType=VARCHAR},
+      </if>
+      <if test="zonId != null">
+        #{zonId,jdbcType=VARCHAR},
+      </if>
+      <if test="sellNum != null">
+        #{sellNum,jdbcType=INTEGER},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="kfqq != null">
+        #{kfqq,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cyj.entity.Goods">
+    update wxb_good
+    <set>
+      <if test="goodName != null">
+        good_name = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodPic1 != null">
+        good_pic1 = #{goodPic1,jdbcType=VARCHAR},
+      </if>
+      <if test="goodPic2 != null">
+        good_pic2 = #{goodPic2,jdbcType=VARCHAR},
+      </if>
+      <if test="goodPic3 != null">
+        good_pic3 = #{goodPic3,jdbcType=VARCHAR},
+      </if>
+      <if test="promoteDesc != null">
+        promote_desc = #{promoteDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="copyIds != null">
+        copy_ids = #{copyIds,jdbcType=VARCHAR},
+      </if>
+      <if test="copyDesc != null">
+        copy_desc = #{copyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="forwardLink != null">
+        forward_link = #{forwardLink,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toped != null">
+        toped = #{toped,jdbcType=INTEGER},
+      </if>
+      <if test="recomed != null">
+        recomed = #{recomed,jdbcType=INTEGER},
+      </if>
+      <if test="topedTime != null">
+        toped_time = #{topedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recomedTime != null">
+        recomed_time = #{recomedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spcId != null">
+        spc_id = #{spcId,jdbcType=VARCHAR},
+      </if>
+      <if test="zonId != null">
+        zon_id = #{zonId,jdbcType=VARCHAR},
+      </if>
+      <if test="sellNum != null">
+        sell_num = #{sellNum,jdbcType=INTEGER},
+      </if>
+      <if test="website != null">
+        website = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="kfqq != null">
+        kfqq = #{kfqq,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where good_id = #{goodId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cyj.entity.Goods">
+    update wxb_good
+    set good_name = #{goodName,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      good_pic1 = #{goodPic1,jdbcType=VARCHAR},
+      good_pic2 = #{goodPic2,jdbcType=VARCHAR},
+      good_pic3 = #{goodPic3,jdbcType=VARCHAR},
+      promote_desc = #{promoteDesc,jdbcType=VARCHAR},
+      copy_ids = #{copyIds,jdbcType=VARCHAR},
+      copy_desc = #{copyDesc,jdbcType=VARCHAR},
+      forward_link = #{forwardLink,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      toped = #{toped,jdbcType=INTEGER},
+      recomed = #{recomed,jdbcType=INTEGER},
+      toped_time = #{topedTime,jdbcType=TIMESTAMP},
+      recomed_time = #{recomedTime,jdbcType=TIMESTAMP},
+      spc_id = #{spcId,jdbcType=VARCHAR},
+      zon_id = #{zonId,jdbcType=VARCHAR},
+      sell_num = #{sellNum,jdbcType=INTEGER},
+      website = #{website,jdbcType=VARCHAR},
+      kfqq = #{kfqq,jdbcType=VARCHAR}
+    where good_id = #{goodId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="queryAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from wxb_good
+  </select>
+</mapper>

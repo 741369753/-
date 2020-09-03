@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace= "com.cyj.dao.ModuleDao">
+    <resultMap id="ModuleMap" type="com.cyj.entity.Module">
+        <id property="moduleCode" column="module_code"/>
+        <result property="moduleName" column="module_name"/>
+        <result property="linkUrl" column="link_url"/>
+        <result property="moduleOrder" column="module_order"/>
+        <result property="parentModule" column="parent_module"/>
+        <result property="moduleDesc" column="module_desc"/>
+        <result property="expanded" column="expanded"/>
+        <result property="leaf" column="leaf"/>
+        <collection property="childModules" column="{roleId=role_code,parentId=module_code}" select="queryModuleByRoleId">
+        </collection>
+    </resultMap>
+    <sql id="ModuleColumns">
+        module_code,
+        module_name,
+        link_url,
+        module_order,
+        parent_module,
+        module_desc,
+        expanded,
+        leaf
+    </sql>
+
+    <select id= "queryModuleByRoleId" resultMap="ModuleMap">
+        SELECT
+            m.module_code,
+            m.module_name,
+            m.link_url,
+            m.module_order,
+            m.parent_module,
+            m.module_desc,
+            m.expanded,
+            m.leaf,
+            r.role_code
+        FROM
+            sys_role_fun AS rf
+                INNER JOIN
+            sys_module AS m
+            ON
+                rf.module_id = m.module_code
+                INNER JOIN
+            sys_role AS r
+            ON
+                rf.role_id = r.role_code
+        WHERE
+            r.role_code = #{roleId} and m.parent_module=#{parentId}
+        order by m.module_code,m.module_order
+
+    </select>
+</mapper>
