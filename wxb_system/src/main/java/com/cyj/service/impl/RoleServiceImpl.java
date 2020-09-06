@@ -6,7 +6,11 @@ import com.cyj.entity.ResultData;
 import com.cyj.entity.Role;
 import com.cyj.entity.TreeNodeData;
 import com.cyj.service.RoleService;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundValueOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +27,9 @@ import java.util.UUID;
 public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private RedisTemplate<String,String > redisTemplate;
 
     @Override
     public List<Role> queryAll() {
@@ -49,7 +56,18 @@ public class RoleServiceImpl implements RoleService {
     public ResultData queryMenu(String roleId) {
         ResultData resultData = null;
         try {
-            List<TreeNodeData> treeNodeData = roleDao.queryAllModule("0101");
+            BoundValueOperations<String ,String > menuTree = redisTemplate.boundValueOps("wxb_all_role_menu_tree");
+            String value = menuTree.get();
+            List<TreeNodeData> treeNodeData;
+            ObjectMapper mapper = new ObjectMapper();
+            if (value==null){
+                treeNodeData = roleDao.queryAllModule("0101");
+                value = mapper.writeValueAsString(treeNodeData);
+                menuTree.set(value);
+            }else {
+                JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, TreeNodeData.class);
+                treeNodeData = mapper.readValue(value, javaType);
+            }
             List<String> hasNodeCodes = roleDao.queryContainsModuleByRoleId(roleId);
             setChecked(treeNodeData,hasNodeCodes);
             if (treeNodeData==null){
