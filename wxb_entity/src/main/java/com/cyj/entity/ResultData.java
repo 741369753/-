@@ -1,12 +1,16 @@
 package com.cyj.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * author:aizhishang
  * time:2020/8/26
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResultData {
     private Integer code;
     private String msg;

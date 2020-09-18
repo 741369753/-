@@ -1,0 +1,35 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /wxb_member
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/wfx?useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8
+      username: root
+      password:
+
+  redis:
+    host: 192.168.220.140
+    port: 6379
+    password: 123456
+    timeout: 3000
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 50MB
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.cyj.entity
+
+pagehelper:
+  reasonable: true
+
+logging:
+  level:
+    com.qisheng.mgjcrm.dao: debug
+  config: classpath:log4j2-spring.xml

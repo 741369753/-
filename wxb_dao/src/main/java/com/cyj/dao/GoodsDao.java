@@ -1,6 +1,7 @@
 package com.cyj.dao;
 
 import com.cyj.entity.Goods;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface GoodsDao {
     int updateByPrimaryKey(Goods record);
 
     List<Goods> queryAll();
+
+    List<Goods> queryByCustomerLikeName(@Param("customerId") String customerId,@Param("name") String name);
 }

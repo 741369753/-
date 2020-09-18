@@ -10,6 +10,8 @@
         <module name="wxb_dao" />
         <module name="wxb_entity" />
         <module name="wxb_system" />
+        <module name="wxb_member" />
+        <module name="wxb_customer" />
       </profile>
     </annotationProcessing>
   </component>

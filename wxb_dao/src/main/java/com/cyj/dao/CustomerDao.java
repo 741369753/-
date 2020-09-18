@@ -18,4 +18,6 @@ public interface CustomerDao {
     int updateByPrimaryKey(Customer record);
 
     List<Customer> queryAll();
+
+    Customer queryByLoginName(String loginName);
 }

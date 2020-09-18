@@ -191,4 +191,10 @@
     <include refid="Base_Column_List"/>
     from wxb_customer
   </select>
+  <select id="queryByLoginName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from wxb_customer
+    where login_name=#{loginName}
+  </select>
 </mapper>

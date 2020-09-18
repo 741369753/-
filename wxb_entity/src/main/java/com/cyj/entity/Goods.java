@@ -3,6 +3,7 @@ package com.cyj.entity;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Goods {
@@ -57,5 +58,7 @@ public class Goods {
     private Customer customer;
 
     private GoodsType goodsType;
+
+    private List<GoodsSku> goodsSku;
 
 }

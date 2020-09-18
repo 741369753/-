@@ -2,6 +2,8 @@ package com.cyj.dao;
 
 import com.cyj.entity.GoodsType;
 
+import java.util.List;
+
 public interface GoodsTypeDao {
     int deleteByPrimaryKey(String typeId);
 
@@ -14,4 +16,6 @@ public interface GoodsTypeDao {
     int updateByPrimaryKeySelective(GoodsType record);
 
     int updateByPrimaryKey(GoodsType record);
+
+    List<GoodsType> queryAll();
 }

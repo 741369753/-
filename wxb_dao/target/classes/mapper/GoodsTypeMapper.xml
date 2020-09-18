@@ -103,4 +103,10 @@
       alisa_code = #{alisaCode,jdbcType=VARCHAR}
     where type_id = #{typeId,jdbcType=VARCHAR}
   </update>
+
+  <select id="queryAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from wxb_good_type
+  </select>
 </mapper>
