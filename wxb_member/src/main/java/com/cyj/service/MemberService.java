@@ -8,4 +8,6 @@ import com.cyj.entity.Member;
  */
 public interface MemberService {
     Member login(String username,String password);
+
+    int register(Member member);
 }

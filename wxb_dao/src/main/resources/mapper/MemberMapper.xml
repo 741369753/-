@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cyj.dao.MemberDao">
   <resultMap id="BaseResultMap" type="com.cyj.entity.Member">
-    <id column="mid" jdbcType="INTEGER" property="mid" />
-    <result column="memeber_id" jdbcType="VARCHAR" property="memeberId" />
+    <id column="memeber_id" jdbcType="VARCHAR" property="memeberId" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="qq_num" jdbcType="VARCHAR" property="qqNum" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -16,42 +15,40 @@
     <result column="visit_code" jdbcType="VARCHAR" property="visitCode" />
     <result column="use_recom" jdbcType="INTEGER" property="useRecom" />
     <result column="level_code" jdbcType="VARCHAR" property="levelCode" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    mid, memeber_id, account, qq_num, email, phone, recom_user, register_time, pay_account, 
-    name, password, visit_code, use_recom, level_code, update_time
+    memeber_id, account, qq_num, email, phone, recom_user, register_time, pay_account,
+    name, password, visit_code, use_recom, level_code, mid, update_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from wxb_memeber
-    where mid = #{mid,jdbcType=INTEGER}
+    where memeber_id = #{memeberId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from wxb_memeber
-    where mid = #{mid,jdbcType=INTEGER}
+    where memeber_id = #{memeberId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.cyj.entity.Member">
-    insert into wxb_memeber (mid, memeber_id, account, 
-      qq_num, email, phone, 
-      recom_user, register_time, pay_account, 
-      name, password, visit_code, 
-      use_recom, level_code, update_time
-      )
-    values (#{mid,jdbcType=INTEGER}, #{memeberId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, 
-      #{qqNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{recomUser,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, #{payAccount,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{visitCode,jdbcType=VARCHAR}, 
-      #{useRecom,jdbcType=INTEGER}, #{levelCode,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+    insert into wxb_memeber (memeber_id, account, qq_num,
+                             email, phone, recom_user,
+                             register_time, pay_account, name,
+                             password, visit_code, use_recom,
+                             level_code, mid, update_time
+    )
+    values (#{memeberId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{qqNum,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{recomUser,jdbcType=VARCHAR},
+            #{registerTime,jdbcType=TIMESTAMP}, #{payAccount,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR}, #{visitCode,jdbcType=VARCHAR}, #{useRecom,jdbcType=INTEGER},
+            #{levelCode,jdbcType=VARCHAR}, #{mid,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+           )
   </insert>
   <insert id="insertSelective" parameterType="com.cyj.entity.Member">
     insert into wxb_memeber
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="mid != null">
-        mid,
-      </if>
       <if test="memeberId != null">
         memeber_id,
       </if>
@@ -91,14 +88,14 @@
       <if test="levelCode != null">
         level_code,
       </if>
+      <if test="mid != null">
+        mid,
+      </if>
       <if test="updateTime != null">
         update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="mid != null">
-        #{mid,jdbcType=INTEGER},
-      </if>
       <if test="memeberId != null">
         #{memeberId,jdbcType=VARCHAR},
       </if>
@@ -138,6 +135,9 @@
       <if test="levelCode != null">
         #{levelCode,jdbcType=VARCHAR},
       </if>
+      <if test="mid != null">
+        #{mid,jdbcType=INTEGER},
+      </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -146,9 +146,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cyj.entity.Member">
     update wxb_memeber
     <set>
-      <if test="memeberId != null">
-        memeber_id = #{memeberId,jdbcType=VARCHAR},
-      </if>
       <if test="account != null">
         account = #{account,jdbcType=VARCHAR},
       </if>
@@ -185,29 +182,32 @@
       <if test="levelCode != null">
         level_code = #{levelCode,jdbcType=VARCHAR},
       </if>
+      <if test="mid != null">
+        mid = #{mid,jdbcType=INTEGER},
+      </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where mid = #{mid,jdbcType=INTEGER}
+    where memeber_id = #{memeberId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cyj.entity.Member">
     update wxb_memeber
-    set memeber_id = #{memeberId,jdbcType=VARCHAR},
-      account = #{account,jdbcType=VARCHAR},
-      qq_num = #{qqNum,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      recom_user = #{recomUser,jdbcType=VARCHAR},
-      register_time = #{registerTime,jdbcType=TIMESTAMP},
-      pay_account = #{payAccount,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      visit_code = #{visitCode,jdbcType=VARCHAR},
-      use_recom = #{useRecom,jdbcType=INTEGER},
-      level_code = #{levelCode,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where mid = #{mid,jdbcType=INTEGER}
+    set account = #{account,jdbcType=VARCHAR},
+        qq_num = #{qqNum,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+        recom_user = #{recomUser,jdbcType=VARCHAR},
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+        pay_account = #{payAccount,jdbcType=VARCHAR},
+        name = #{name,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        visit_code = #{visitCode,jdbcType=VARCHAR},
+        use_recom = #{useRecom,jdbcType=INTEGER},
+        level_code = #{levelCode,jdbcType=VARCHAR},
+        mid = #{mid,jdbcType=INTEGER},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where memeber_id = #{memeberId,jdbcType=VARCHAR}
   </update>
   <select id="login" resultMap="BaseResultMap">
     select

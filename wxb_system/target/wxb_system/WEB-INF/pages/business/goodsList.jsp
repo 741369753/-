@@ -23,9 +23,9 @@
 <table class="layui-hide" id="userTable" lay-filter="userTable"></table>
 
 <script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">添加商户</button>
-    </div>
+<%--    <div class="layui-btn-container">--%>
+<%--        <button class="layui-btn layui-btn-sm" lay-event="add">添加商户</button>--%>
+<%--    </div>--%>
 </script>
 
 <script type="text/html" id="barDemo">
@@ -33,10 +33,23 @@
 <%--    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">审核</a>--%>
     {{#  if(d.state == 1){ }}
     <a class="layui-btn layui-btn-warm layui-btn-xs"  lay-event="down">下架</a>
+    {{#  if(d.recomed == 0){ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs"  lay-event="recomed">推荐</a>
+    {{#  } }}
+    {{#  if(d.recomed == 1){ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs"  lay-event="unrecomed">取消推荐</a>
+    {{#  } }}
+    {{#  if(d.toped == 0){ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs"  lay-event="toped">置顶</a>
+    {{#  } }}
+    {{#  if(d.toped == 1){ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs"  lay-event="untoped">取消置顶</a>
+    {{#  } }}
     {{#  } }}
     {{#  if(d.state == 2){ }}
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="up">上架</a>
     {{#  } }}
+
 </script>
 
 <script type="text/html" id="roleNameTip">
@@ -96,19 +109,19 @@
                     templet: '<div>{{d.state==0?"待审核":d.state==1?"已上架":"已下架"}}</div>'
                 }
                 ,{field:'createTime', title:'添加时间', width:170, edit: 'text', sort: true,
-                    templet: '<div>{{layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss")}}</div>'
+                    templet: '<div>{{d.createTime?layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss"):""}}</div>'
                 }
                 ,{field:'toped', title:'置顶', width:120, edit: 'text', sort: true}
                 ,{field:'topedTime', title:'置顶时间', width:170,
-                    templet: '<div>{{layui.util.toDateString(d.topedTime, "yyyy-MM-dd HH:mm:ss")}}</div>'
+                    templet: '<div>{{d.topedTime?layui.util.toDateString(d.topedTime, "yyyy-MM-dd HH:mm:ss"):""}}</div>'
                 }
                 ,{field:'recomed', title:'推荐', width:120, edit: 'text', sort: true}
                 ,{field:'recomedTime', title:'推荐时间', width:170,
-                    templet: '<div>{{layui.util.toDateString(d.recomedTime, "yyyy-MM-dd HH:mm:ss")}}</div>'
+                    templet: '<div>{{d.recomedTime?layui.util.toDateString(d.recomedTime, "yyyy-MM-dd HH:mm:ss"):""}}</div>'
                 }
                 ,{field:'orderNo', title:'排序编号', width:100, edit: 'text', sort: true}
                 ,{field:'sellNum', title:'作弊值', width:120, edit: 'text', sort: true}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:170}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:260}
             ]]
             ,page: true
         });
@@ -168,40 +181,6 @@
                     }
                 });
                 layer.full(index);
-            } else if(obj.event === 'detail'){
-                rowData = data;
-                // console.log("ssss"+JSON.stringify(rowData));
-                var index = layer.open({
-                    type: 2 //此处以iframe举例
-                    ,title: '编辑'
-                    // ,area: ['700px', '500px']
-                    ,shade: 0.3
-                    ,maxmin: false
-                    // ,offset: [ //为了演示，随机坐标
-                    //     ($(window).height()-300)
-                    //     ,($(window).width()-390)
-                    // ]
-                    ,content: 'userinfo/usereditpage'
-                    // ,yes: function(){
-                    //     $(that).click();
-                    // }
-                    // ,btn2: function(){
-                    //     layer.closeAll();
-                    // }
-
-                    ,zIndex: layer.zIndex //重点1
-                    ,success: function(layero){
-                        layer.setTop(layero); //重点2
-                    }
-                    ,end:function (){
-                        // console.log(rowData);
-                        // console.log("jjjj"+JSON.stringify(rowData))
-                        // obj.update(JSON.parse(JSON.stringify(rowData)));
-                        table.reload('userTable');
-                        rowData=null;
-                    }
-                });
-                layer.full(index);
             }else if(obj.event === 'down'){
                 layer.confirm("是否下架？",function (index){
                     $.get("goods/updateState",{'goodId':data.goodId,'state':2},function (res){
@@ -217,6 +196,54 @@
             }else if(obj.event === 'up'){
                 layer.confirm("是否上架？",function (index){
                     $.get("goods/updateState",{'goodId':data.goodId,'state':1},function (res){
+                        if (res.code==10000){
+                            // obj.update(newData);
+                            layer.closeAll();
+                            table.reload('userTable');
+                        }else {
+                            layer.alert(res.msg);
+                        }
+                    })
+                })
+            }else if(obj.event === 'recomed'){
+                layer.confirm("是否推荐？",function (index){
+                    $.get("goods/changeRecomed",{'goodId':data.goodId,'state':1},function (res){
+                        if (res.code==10000){
+                            // obj.update(newData);
+                            layer.closeAll();
+                            table.reload('userTable');
+                        }else {
+                            layer.alert(res.msg);
+                        }
+                    })
+                })
+            }else if(obj.event === 'unrecomed'){
+                layer.confirm("是否取消推荐？",function (index){
+                    $.get("goods/changeRecomed",{'goodId':data.goodId,'state':0},function (res){
+                        if (res.code==10000){
+                            // obj.update(newData);
+                            layer.closeAll();
+                            table.reload('userTable');
+                        }else {
+                            layer.alert(res.msg);
+                        }
+                    })
+                })
+            }else if(obj.event === 'toped'){
+                layer.confirm("是否置顶？",function (index){
+                    $.get("goods/changeToped",{'goodId':data.goodId,'state':1},function (res){
+                        if (res.code==10000){
+                            // obj.update(newData);
+                            layer.closeAll();
+                            table.reload('userTable');
+                        }else {
+                            layer.alert(res.msg);
+                        }
+                    })
+                })
+            }else if(obj.event === 'untoped'){
+                layer.confirm("是否取消置顶？",function (index){
+                    $.get("goods/changeToped",{'goodId':data.goodId,'state':0},function (res){
                         if (res.code==10000){
                             // obj.update(newData);
                             layer.closeAll();

@@ -4,13 +4,13 @@ import com.cyj.entity.Member;
 import org.apache.ibatis.annotations.Param;
 
 public interface MemberDao {
-    int deleteByPrimaryKey(Integer mid);
+    int deleteByPrimaryKey(String memeberId);
 
     int insert(Member record);
 
     int insertSelective(Member record);
 
-    Member selectByPrimaryKey(Integer mid);
+    Member selectByPrimaryKey(String memeberId);
 
     int updateByPrimaryKeySelective(Member record);
 

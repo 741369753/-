@@ -20,12 +20,13 @@ public class GoodsCopyServiceImpl implements GoodsCopyService {
 
     @Override
     public PageInfo queryGoodsCopyPageLike(String search, String customerId, int currentPage, int pageSize) {
+        //生成PageHelper分页
         PageHelper.startPage(currentPage,pageSize);
 
         if (search!=null&&!search.isEmpty()){
             search="%"+search+"%";
         }
-
+        //获取分页数据
         PageInfo pageInfo = new PageInfo(goodsCopyDao.queryByCustomerIdPageLike(search,customerId));
 
         return pageInfo;

@@ -48,4 +48,14 @@ public class PageController {
     public String goodsDetailPage(){
         return "/business/goodsDeatil";
     }
+
+    @RequestMapping("/goodsType/goodsType")
+    public String goodsTypePage(){
+        return "/business/goodsType";
+    }
+
+    @RequestMapping("/goodsType/goodsTypeEdit")
+    public String goodsTypeEdit(){
+        return "/business/goodsTypeEdit";
+    }
 }

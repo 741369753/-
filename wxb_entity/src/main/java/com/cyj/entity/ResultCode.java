@@ -13,5 +13,7 @@ public interface ResultCode {
 
     public final static Integer NO_EFFECT = 10012;//无受影响行数
 
-    public final static Integer NONE = 10013;//参数为Null
+    public final static Integer NONE_ARGS = 10013;//参数为Null
+
+    public final static Integer DUPLICATEKEY = 10014;//重复主键
 }

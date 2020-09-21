@@ -20,9 +20,10 @@ import java.util.concurrent.TimeUnit;
  * time:2020/9/15
  */
 
-@Component
+@Component//需要将过滤器对象交由spring管理(必须，否则不生效)
 @WebFilter("/")
 public class LoginFilter implements Filter {
+    //使用过滤器控制登录，在wxb_member模块中使用拦截器控制登录
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -52,6 +53,7 @@ public class LoginFilter implements Filter {
                 //设置response后再获取PrintWriter
                 PrintWriter out = response.getWriter();
 
+                //通过out.print向前端返回结果
                 out.print(new ObjectMapper().writeValueAsString(new ResultData(ResultCode.NO_LOGIN, "未登录", null)));
                 out.close();
                 out.flush();

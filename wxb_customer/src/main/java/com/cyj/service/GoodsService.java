@@ -16,6 +16,11 @@ public interface GoodsService {
 
     int updateGoods(Goods goods);
 
+    /**
+     * 初始化页面数据，返回商品类型与文案信息（微信文案）
+     * @param customer
+     * @return
+     */
     Map<String, Object> addPageInit(Customer customer);
 
 
@@ -23,5 +28,10 @@ public interface GoodsService {
 
     int addGoods(Goods goods);
 
+    /**
+     * 删除商品
+     * @param goodsId
+     * @return -1表示传入id为null或空字符串;0表示受影响行数为0;1表示成功
+     */
     int deleteGoods(String goodsId);
 }

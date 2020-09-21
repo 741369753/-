@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,4 +66,57 @@ public class GoodsController {
 
         return resultData;
     }
+
+    @RequestMapping("/changeToped")
+    @ResponseBody
+    public ResultData changeToped(@RequestParam("goodId")String goodId, @RequestParam("state")Integer state){
+        ResultData resultData = null;
+
+        Goods goods = null;
+        try {
+            goods = new Goods();
+            goods.setGoodId(goodId);
+            goods.setToped(state);
+            if (state==1){
+                goods.setTopedTime(new Date());
+            }
+            if (goodsService.updateGoods(goods)>0){
+                resultData = ResultData.createSuccessResult(null);
+            }else {
+                resultData = ResultData.createFailResult(10006, "受影响行数为0");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultData = ResultData.createFailResult(10007, "出现异常");
+        }
+
+        return resultData;
+    }
+
+    @RequestMapping("/changeRecomed")
+    @ResponseBody
+    public ResultData changeRecomed(@RequestParam("goodId")String goodId, @RequestParam("state")Integer state){
+        ResultData resultData = null;
+
+        Goods goods = null;
+        try {
+            goods = new Goods();
+            goods.setGoodId(goodId);
+            goods.setRecomed(state);
+            if (state==1){
+                goods.setRecomedTime(new Date());
+            }
+            if (goodsService.updateGoods(goods)>0){
+                resultData = ResultData.createSuccessResult(null);
+            }else {
+                resultData = ResultData.createFailResult(10006, "受影响行数为0");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultData = ResultData.createFailResult(10007, "出现异常");
+        }
+
+        return resultData;
+    }
+
 }

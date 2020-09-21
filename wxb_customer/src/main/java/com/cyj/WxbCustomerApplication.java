@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.cyj.dao")
+@MapperScan("com.cyj.dao")//配置mybatis扫描dao层
 public class WxbCustomerApplication {
 
     public static void main(String[] args) {

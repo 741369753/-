@@ -21,6 +21,7 @@ import java.util.UUID;
  * time:2020/9/14
  */
 @RestController
+//设置跨域
 @CrossOrigin
 @RequestMapping("/customer")
 public class CustomerController {

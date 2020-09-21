@@ -331,4 +331,12 @@
       and good_name like #{name}
     </if>
   </select>
+  <select id="queryByIdLikeName" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from wxb_good
+    where good_id=#{good_id}
+    <if test="goodName!=null and goodName!=''">
+      and good_name like #{goodName}
+    </if>
+  </select>
 </mapper>

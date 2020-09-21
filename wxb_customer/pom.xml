@@ -22,16 +22,19 @@
             <artifactId>wxb_dao</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!--必须放在前面其它spring依赖前,maven依赖从上往下执行-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
+                <!--exclusions排除spring自带日志功能,如果web依赖在后面，其它spring同样有logging，会导致该exclusion失效-->
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--引入log4j2,需要log4j2-spring.xml来配置,并在application中指定该配置文件-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
@@ -50,6 +53,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
+            <!--注意mysql驱动版本,默认版本是8.0以上，如果需要使用5.x版本需要手动指定-->
             <version>8.0.19</version>
         </dependency>
         <dependency>
@@ -67,7 +71,7 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+        <!-- 网络开发包，包含ftp,可用于文件上传 -->
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
@@ -84,6 +88,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--分页工具-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>

@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * author:aizhishang
@@ -44,9 +41,11 @@ public class GoodsController {
 
             resultMap = new HashMap<>();
 
+            //从redis中获取登录用户信息
             Customer customer = mapper.readValue(stringRedisTemplate.boundValueOps(key).get(), Customer.class);
 
             try {
+                //模糊查询
                 if (searchStr!=null&&!searchStr.isEmpty()){
                     searchStr="%"+searchStr+"%";
                 }
@@ -66,14 +65,19 @@ public class GoodsController {
     @RequestMapping("/addGoods")
     public ResultData addGoods(@RequestBody GoodsAdd goodsAdd,@RequestHeader("key") String key){
         try {
+            //goodsAdd包含goods(商品)和goodsSku(套餐)信息
             Goods goods = goodsAdd.getGoods();
             System.out.println(goods);
+            //生成商品id，当前时间毫秒数+2位随机数
             String goodsId = System.currentTimeMillis() + "" + new Random().nextInt(100);
             Customer customer = mapper.readValue(stringRedisTemplate.boundValueOps(key).get(), Customer.class);
 
+            //生成商品必要信息
             goods.setGoodId(goodsId);
             goods.setCustomerId(customer.getCustomerId());
+            goods.setCreateTime(new Date());
 
+            //初始化套餐数据，添加必要信息
             List<GoodsSku> goodsSkus = goodsSkuService.initSkuList(goodsAdd.getGoodsSku(), goodsId);
 
             ResultData resultData = null;
@@ -142,7 +146,7 @@ public class GoodsController {
         }else if (count==0){
             resultData = ResultData.createFailResult(ResultCode.NO_EFFECT,"受影响0行");
         }else {
-            resultData = ResultData.createFailResult(ResultCode.NONE,"id为null");
+            resultData = ResultData.createFailResult(ResultCode.NONE_ARGS,"id为null");
         }
         return resultData;
     }

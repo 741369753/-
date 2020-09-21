@@ -12,8 +12,6 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 public class Member {
-    private Integer mid;
-
     private String memeberId;
 
     private String account;
@@ -39,6 +37,8 @@ public class Member {
     private Integer useRecom;
 
     private String levelCode;
+
+    private Integer mid;
 
     private Date updateTime;
 

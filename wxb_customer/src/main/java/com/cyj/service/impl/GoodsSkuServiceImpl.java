@@ -28,8 +28,10 @@ public class GoodsSkuServiceImpl implements GoodsSkuService {
 
     @Override
     public List<GoodsSku> initSkuList(List<GoodsSku> goodsSkus,String goodsId){
+        //生成套餐id
         String id=null;
         for (GoodsSku skus : goodsSkus) {
+            //随机生成8位整数，格式化数据，不足8位的数高位补0
             id = String.format("%08d", new Random().nextInt(100000000));
             skus.setSkuId(id);
             skus.setGoodId(goodsId);

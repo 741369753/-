@@ -12,21 +12,22 @@ spring:
       password:
 
   redis:
-    host: 192.168.220.140
+    host: 192.168.220.141
     port: 6379
     password: 123456
     timeout: 3000
 
   servlet:
-    multipart:
-      max-file-size: 20MB
-      max-request-size: 50MB
+    multipart: #文件上传配置
+      max-file-size: 20MB #单文件大小限制
+      max-request-size: 50MB #请求大小限制
 
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.cyj.entity
 
+#log4j2配置
 logging:
   level:
     com.qisheng.mgjcrm.dao: debug

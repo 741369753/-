@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.dao.OrderDao">
+  <resultMap id="BaseResultMap" type="com.cyj.entity.Order">
+    <id column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="good_id" jdbcType="VARCHAR" property="goodId" />
+    <result column="buy_num" jdbcType="INTEGER" property="buyNum" />
+    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="pay_type" jdbcType="INTEGER" property="payType" />
+    <result column="sku_id" jdbcType="VARCHAR" property="skuId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+    <result column="buyer_phone" jdbcType="VARCHAR" property="buyerPhone" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="buyer_reamrk" jdbcType="VARCHAR" property="buyerReamrk" />
+    <result column="courier_id" jdbcType="VARCHAR" property="courierId" />
+    <result column="order_remark" jdbcType="VARCHAR" property="orderRemark" />
+    <result column="sender_type" jdbcType="VARCHAR" property="senderType" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="admin_remark" jdbcType="VARCHAR" property="adminRemark" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="order_ip" jdbcType="VARCHAR" property="orderIp" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="alipay_state" jdbcType="CHAR" property="alipayState" />
+    <association property="goods" column="good_id" select="com.cyj.dao.GoodsDao.selectByPrimaryKey"/>
+    <association property="goodsSku" column="sku_id" select="com.cyj.dao.GoodsSkuDao.selectByPrimaryKey"/>
+    <association property="member" column="user_id" select="com.cyj.dao.MemberDao.selectByPrimaryKey"/>
+  </resultMap>
+  <resultMap id="BaseResultMap2" type="com.cyj.entity.Order">
+    <id column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="good_id" jdbcType="VARCHAR" property="goodId" />
+    <result column="buy_num" jdbcType="INTEGER" property="buyNum" />
+    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="pay_type" jdbcType="INTEGER" property="payType" />
+    <result column="sku_id" jdbcType="VARCHAR" property="skuId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+    <result column="buyer_phone" jdbcType="VARCHAR" property="buyerPhone" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="buyer_reamrk" jdbcType="VARCHAR" property="buyerReamrk" />
+    <result column="courier_id" jdbcType="VARCHAR" property="courierId" />
+    <result column="order_remark" jdbcType="VARCHAR" property="orderRemark" />
+    <result column="sender_type" jdbcType="VARCHAR" property="senderType" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="admin_remark" jdbcType="VARCHAR" property="adminRemark" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="order_ip" jdbcType="VARCHAR" property="orderIp" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="alipay_state" jdbcType="CHAR" property="alipayState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, good_id, buy_num, order_time, channel_id, state, pay_type, sku_id, user_id, 
+    buyer_name, buyer_phone, province, city, area, address, buyer_reamrk, courier_id, 
+    order_remark, sender_type, order_type, admin_remark, operator, check_time, order_ip, 
+    update_time, alipay_state
+  </sql>
+  <sql id="Base_Column_List2">
+    wo.order_id,wo. good_id,wo. buy_num,wo. order_time,wo. channel_id,wo. state,wo. pay_type,wo. sku_id,wo. user_id,wo.
+    buyer_name,wo. buyer_phone,wo. province,wo. city,wo. area,wo. address,wo. buyer_reamrk,wo. courier_id,wo.
+    order_remark,wo. sender_type,wo. order_type,wo. admin_remark,wo. operator,wo. check_time,wo. order_ip,wo.
+    update_time,wo. alipay_state
+  </sql>
+  <sql id="goods_Column">
+    wg.good_id,wg. good_name,wg. customer_id,wg. good_pic1,wg. good_pic2,wg. good_pic3,wg. promote_desc,wg. copy_ids,wg.
+    copy_desc,wg. forward_link,wg. order_no,wg. type_id,wg. tags,wg. state,wg. create_time,wg. toped,wg. recomed,wg. 
+    toped_time,wg. recomed_time,wg. spc_id,wg. zon_id,wg. sell_num,wg. website,wg. kfqq
+  </sql>
+  <sql id="goodsSku_Column">
+    wgs.sku_id,wgs. sku_name,wgs. sku_cost,wgs. sku_price,wgs. sku_pmoney,wgs. good_id,wgs. order_no,wgs. service_money
+  </sql>
+  <sql id="member_Column">
+    wm.memeber_id,wm. account,wm. qq_num,wm. email,wm. phone,wm. recom_user,wm. register_time,wm. pay_account,wm.
+    name,wm. password,wm. visit_code,wm. use_recom,wm. level_code,wm. mid,wm. update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wxb_order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from wxb_order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cyj.entity.Order">
+    insert into wxb_order (order_id, good_id, buy_num, 
+      order_time, channel_id, state, 
+      pay_type, sku_id, user_id, 
+      buyer_name, buyer_phone, province, 
+      city, area, address, 
+      buyer_reamrk, courier_id, order_remark, 
+      sender_type, order_type, admin_remark, 
+      operator, check_time, order_ip, 
+      update_time, alipay_state)
+    values (#{orderId,jdbcType=VARCHAR}, #{goodId,jdbcType=VARCHAR}, #{buyNum,jdbcType=INTEGER}, 
+      #{orderTime,jdbcType=TIMESTAMP}, #{channelId,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{payType,jdbcType=INTEGER}, #{skuId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{buyerName,jdbcType=VARCHAR}, #{buyerPhone,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{buyerReamrk,jdbcType=VARCHAR}, #{courierId,jdbcType=VARCHAR}, #{orderRemark,jdbcType=VARCHAR}, 
+      #{senderType,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER}, #{adminRemark,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, #{orderIp,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{alipayState,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cyj.entity.Order">
+    insert into wxb_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="goodId != null">
+        good_id,
+      </if>
+      <if test="buyNum != null">
+        buy_num,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="skuId != null">
+        sku_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="buyerName != null">
+        buyer_name,
+      </if>
+      <if test="buyerPhone != null">
+        buyer_phone,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="buyerReamrk != null">
+        buyer_reamrk,
+      </if>
+      <if test="courierId != null">
+        courier_id,
+      </if>
+      <if test="orderRemark != null">
+        order_remark,
+      </if>
+      <if test="senderType != null">
+        sender_type,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="adminRemark != null">
+        admin_remark,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="checkTime != null">
+        check_time,
+      </if>
+      <if test="orderIp != null">
+        order_ip,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="alipayState != null">
+        alipay_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodId != null">
+        #{goodId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyNum != null">
+        #{buyNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null">
+        #{skuId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null">
+        #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerPhone != null">
+        #{buyerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerReamrk != null">
+        #{buyerReamrk,jdbcType=VARCHAR},
+      </if>
+      <if test="courierId != null">
+        #{courierId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderRemark != null">
+        #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="senderType != null">
+        #{senderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="adminRemark != null">
+        #{adminRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderIp != null">
+        #{orderIp,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alipayState != null">
+        #{alipayState,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cyj.entity.Order">
+    update wxb_order
+    <set>
+      <if test="goodId != null">
+        good_id = #{goodId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyNum != null">
+        buy_num = #{buyNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null">
+        sku_id = #{skuId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null">
+        buyer_name = #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerPhone != null">
+        buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerReamrk != null">
+        buyer_reamrk = #{buyerReamrk,jdbcType=VARCHAR},
+      </if>
+      <if test="courierId != null">
+        courier_id = #{courierId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderRemark != null">
+        order_remark = #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="senderType != null">
+        sender_type = #{senderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="adminRemark != null">
+        admin_remark = #{adminRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null">
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderIp != null">
+        order_ip = #{orderIp,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alipayState != null">
+        alipay_state = #{alipayState,jdbcType=CHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cyj.entity.Order">
+    update wxb_order
+    set good_id = #{goodId,jdbcType=VARCHAR},
+      buy_num = #{buyNum,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      channel_id = #{channelId,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      pay_type = #{payType,jdbcType=INTEGER},
+      sku_id = #{skuId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      buyer_name = #{buyerName,jdbcType=VARCHAR},
+      buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      buyer_reamrk = #{buyerReamrk,jdbcType=VARCHAR},
+      courier_id = #{courierId,jdbcType=VARCHAR},
+      order_remark = #{orderRemark,jdbcType=VARCHAR},
+      sender_type = #{senderType,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      admin_remark = #{adminRemark,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      order_ip = #{orderIp,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      alipay_state = #{alipayState,jdbcType=CHAR}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <select id="queryAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from wxb_order
+  </select>
+  <select id="queryByParms" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List2"/>
+    from wxb_order wo
+    left join wxb_good wg on wo.good_id = wg.good_id
+    left join wxb_good_sku wgs on wo.sku_id=wgs.sku_id
+    left join wxb_memeber wm on wo.user_id=wm.memeber_id
+    <trim prefix="where" prefixOverrides="and">
+      <if test="param.orderId!=null and param.orderId!=''">
+        and wo.order_id like #{param.orderId}
+      </if>
+      <if test="param.goodsName!=null and param.goodsName!=''">
+        and wg.good_name like #{param.goodsName}
+      </if>
+      <if test="param.buyerName!=null and param.buyerName!=''">
+        and wo.buyer_name like #{param.buyerName}
+      </if>
+      <if test="param.buyerPhone!=null and param.buyerPhone!=''">
+        and wo.buyer_phone like #{param.buyerPhone}
+      </if>
+      <if test="param.userAccount!=null and param.userAccount!=''">
+        and wm.account like #{param.userAccount}
+      </if>
+      <if test="param.beginTime!=null">
+        and wo.order_time >= #{param.beginTime}
+      </if>
+      <if test="param.endTime!=null">
+        and wo.order_time &lt;= #{param.endTime}
+      </if>
+      <if test="param.state!=null">
+        and wo.state = #{param.state}
+      </if>
+    </trim>
+
+  </select>
+</mapper>

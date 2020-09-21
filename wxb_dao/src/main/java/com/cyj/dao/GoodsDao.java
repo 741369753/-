@@ -21,4 +21,6 @@ public interface GoodsDao {
     List<Goods> queryAll();
 
     List<Goods> queryByCustomerLikeName(@Param("customerId") String customerId,@Param("name") String name);
+
+    List<Goods> queryByIdLikeName(@Param("goodId") String goodId,@Param("goodName") String goodName);
 }
