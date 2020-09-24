@@ -35,7 +35,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (request.getServletPath().endsWith("login")||request.getServletPath().endsWith("register")) {
+        if (request.getServletPath().endsWith("login")||request.getServletPath().endsWith("register")||request.getServletPath().endsWith("wxpayResult")) {
             return true;
         }
         String key = request.getHeader("key");

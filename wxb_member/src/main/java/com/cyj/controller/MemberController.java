@@ -27,8 +27,8 @@ public class MemberController {
     private MemberService memberService;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
-
-    private ObjectMapper mapper = new ObjectMapper();
+    @Resource
+    private ObjectMapper mapper;
 
     @RequestMapping("/login")
     public ResultData login(@RequestBody Customer customer) {
@@ -41,7 +41,7 @@ public class MemberController {
 
             String key = UUID.randomUUID().toString().replace("-", "");
             stringRedisTemplate.boundValueOps(key).set(mapper.writeValueAsString(member),30, TimeUnit.MINUTES);
-            return ResultData.createSuccessResult(member);
+            return ResultData.createSuccessResult(key);
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();

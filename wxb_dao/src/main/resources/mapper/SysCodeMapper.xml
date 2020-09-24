@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.dao.SysCodeDao">
+  <resultMap id="BaseResultMap" type="com.cyj.entity.SysCode">
+    <id column="code_id" jdbcType="VARCHAR" property="codeId" />
+    <result column="field_code" jdbcType="VARCHAR" property="fieldCode" />
+    <result column="field_name" jdbcType="VARCHAR" property="fieldName" />
+    <result column="code_value" jdbcType="VARCHAR" property="codeValue" />
+    <result column="code_desc" jdbcType="VARCHAR" property="codeDesc" />
+    <result column="enabled" jdbcType="VARCHAR" property="enabled" />
+    <result column="edit_mode" jdbcType="VARCHAR" property="editMode" />
+    <result column="sort_no" jdbcType="INTEGER" property="sortNo" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    code_id, field_code, field_name, code_value, code_desc, enabled, edit_mode, sort_no, 
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_code
+    where code_id = #{codeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_code
+    where code_id = #{codeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cyj.entity.SysCode">
+    insert into sys_code (code_id, field_code, field_name, 
+      code_value, code_desc, enabled, 
+      edit_mode, sort_no, remark
+      )
+    values (#{codeId,jdbcType=VARCHAR}, #{fieldCode,jdbcType=VARCHAR}, #{fieldName,jdbcType=VARCHAR}, 
+      #{codeValue,jdbcType=VARCHAR}, #{codeDesc,jdbcType=VARCHAR}, #{enabled,jdbcType=VARCHAR}, 
+      #{editMode,jdbcType=VARCHAR}, #{sortNo,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cyj.entity.SysCode">
+    insert into sys_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="codeId != null">
+        code_id,
+      </if>
+      <if test="fieldCode != null">
+        field_code,
+      </if>
+      <if test="fieldName != null">
+        field_name,
+      </if>
+      <if test="codeValue != null">
+        code_value,
+      </if>
+      <if test="codeDesc != null">
+        code_desc,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+      <if test="editMode != null">
+        edit_mode,
+      </if>
+      <if test="sortNo != null">
+        sort_no,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="codeId != null">
+        #{codeId,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldCode != null">
+        #{fieldCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldName != null">
+        #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="codeValue != null">
+        #{codeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="codeDesc != null">
+        #{codeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=VARCHAR},
+      </if>
+      <if test="editMode != null">
+        #{editMode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cyj.entity.SysCode">
+    update sys_code
+    <set>
+      <if test="fieldCode != null">
+        field_code = #{fieldCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldName != null">
+        field_name = #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="codeValue != null">
+        code_value = #{codeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="codeDesc != null">
+        code_desc = #{codeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=VARCHAR},
+      </if>
+      <if test="editMode != null">
+        edit_mode = #{editMode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        sort_no = #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where code_id = #{codeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cyj.entity.SysCode">
+    update sys_code
+    set field_code = #{fieldCode,jdbcType=VARCHAR},
+      field_name = #{fieldName,jdbcType=VARCHAR},
+      code_value = #{codeValue,jdbcType=VARCHAR},
+      code_desc = #{codeDesc,jdbcType=VARCHAR},
+      enabled = #{enabled,jdbcType=VARCHAR},
+      edit_mode = #{editMode,jdbcType=VARCHAR},
+      sort_no = #{sortNo,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where code_id = #{codeId,jdbcType=VARCHAR}
+  </update>
+  <select id="queryByFieldCode" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_code
+    where field_code=#{fieldCode}
+  </select>
+</mapper>
